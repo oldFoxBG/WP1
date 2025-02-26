@@ -1,14 +1,14 @@
 <?php
 /**
- * Plugin Name: TEST Payment
+ * Plugin Name: TEST Payment Gateway
  * Plugin URI:  Plugin URL Link
  * Author:      Author Name
  * Author URI:  Author URI
- * Description: TEST Payment under PHP 8.2.12 / WP 6.7.2 / WC 9.6.2
+ * Description: TEST Payment Gateway under PHP 8.2.12 / WP 6.7.2 / WC 9.6.2
  * Version:     0.1.0
  * License:     GPL-2.0+
  * License URL: http://www.gnu.org/licenses/gpl-2.0.txt
- * text-domain: prefix-plugin-name
+ * text-domain: test-payment-domain
 */
 
 // Exit if accessed directly
@@ -20,6 +20,7 @@ if (!defined('ABSPATH')) {
 define('TEST_PAYMENT_VERSION', '0.1.0');
 define('TEST_PAYMENT_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('TEST_PAYMENT_PLUGIN_PATH', plugin_dir_path(__FILE__));
+define('TEST_PAYMENT_TEXT_DOMAIN', 'test-payment-domain');
 
 // Activation Hook - Check if WooCommerce is Active
 register_activation_hook(__FILE__, 'test_payment_activation_check');
@@ -57,7 +58,9 @@ function test_payment_check_woocommerce()
     test_payment_init();    
     // Add settings url
     add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'test_payment_settings_link');
-}
+    // register woocommerce payment gateway
+    add_filter('woocommerce_payment_gateways', 'test_payment_gateway');
+    }
 
 function test_payment_init() 
 {    
@@ -82,3 +85,12 @@ function test_payment_settings_link ($links) {
     array_push($links, $settings_link);
     return $links;
 }
+
+// test_paument_gateway
+function test_payment_gateway($gateways)
+{
+    $gateways[] = 'Test_Payment_Gateway';
+    return $gateways;
+    
+}
+
