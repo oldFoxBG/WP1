@@ -13,14 +13,24 @@ if (!defined('ABSPATH')) {
 
 class Test_Payment_Gateway extends WC_Payment_Gateway_CC
 {
-/**
- * /**
- * TEST Payment Gateway
- * 
- * @author Author Name
- * @since 1.0.0
- */
- * 
- */
+
+    /**
+     *  Public key
+     *  
+     *  @var string;
+     */
+    public $public_key;
     
+    /**
+     *  Secret key
+     *
+     *  @var string;
+     */
+    public $secret_key;
+    
+    /**
+     *  Test mode
+     *
+     */
+    public $test_mode;
 }

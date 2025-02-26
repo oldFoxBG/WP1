@@ -44,6 +44,8 @@ function test_payment_activation_check()
 // Run this check after all plugins are loaded
 add_action('plugins_loaded', 'test_payment_check_woocommerce');
 
+
+
 function test_payment_check_woocommerce()
 {
     if (!class_exists('WooCommerce')) {
