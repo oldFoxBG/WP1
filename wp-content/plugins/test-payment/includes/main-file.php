@@ -35,11 +35,51 @@ class Test_Payment_Gateway extends WC_Payment_Gateway_CC
     public $test_mode;
     
     /**
+     *  Title
+     *
+     */
+    public $title;
+    
+    /**
+     *  Description
+     *
+     */
+    public $description;
+    
+    
+    
+    /**
+     *  test_public_key
+     *
+     */
+    public $test_public_key;
+    
+    /**
+     *  test_secret_key
+     *
+     */
+    public $test_secret_key;
+    
+    /**
+     *  live_public_key
+     *
+     */
+    public $live_public_key;
+    
+    /**
+     *  live_secret_key
+     *
+     */
+    public $live_secret_key;
+    
+    
+    
+    
+    /**
      *  Constructor
      *  
      *  @since 1.0.0
      */
-    
     public function __construct()
     {
         // id
@@ -55,7 +95,25 @@ class Test_Payment_Gateway extends WC_Payment_Gateway_CC
             'products'
         );
        // Add Form fields
-       $this->init_form_fields();        
+       $this->init_form_fields();    
+       
+       /////// ADD FORM FIELDS ///////
+       $this->title = $this->get_option('title');
+       $this->description = $this->get_option('description');
+       $this->enabled = $this->get_option('enabled');
+       
+       $this->test_mode = 'yes' === get_option('test_mode') ? true : false;
+       
+       $this->test_public_key = $this->get_option('test_public_key');
+       $this->live_public_key = $this->get_option('live_public_key');
+       $this->test_secret_key = $this->get_option('test_secret_key');
+       $this->live_secret_key = $this->get_option('live_secret_key');
+       
+       $this->public_key = $this->test_mode ? $this->test_public_key : $this->live_public_key;
+       $this->secret_key = $this->test_mode ? $this->test_secret_key : $this->live_secret_key;
+       
+       
+       
        // Process admin options
        add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
        // Admin script
