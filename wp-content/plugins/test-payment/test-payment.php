@@ -17,7 +17,8 @@ if (!defined('ABSPATH')) {
 }
 
 // Define the plugin constants
-define('TEST_PAYMENT_VERSION', '0.1.0');
+// define('TEST_PAYMENT_VERSION', '0.1.0');
+define('TEST_PAYMENT_VERSION', time());
 define('TEST_PAYMENT_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('TEST_PAYMENT_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('TEST_PAYMENT_TEXT_DOMAIN', 'test-payment-domain');

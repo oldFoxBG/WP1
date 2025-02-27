@@ -58,6 +58,18 @@ class Test_Payment_Gateway extends WC_Payment_Gateway_CC
        $this->init_form_fields();        
        // Process admin options
        add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
+       // Admin script
+       add_action('admin_enqueue_scripts', [$this, 'admin_scripts']);       
+    }
+    
+    /**
+     * Admin scripts
+     * 
+     * @since 1.0.0
+     */
+    public function admin_scripts()
+    {
+        wp_enqueue_script('test-admin-script', TEST_PAYMENT_PLUGIN_URL . 'assets/js/admin.js', ['jquery'], TEST_PAYMENT_VERSION, TRUE);
     }
     
     /**
@@ -74,15 +86,14 @@ class Test_Payment_Gateway extends WC_Payment_Gateway_CC
                 'label' => __('Enable Test payment Gateway', TEST_PAYMENT_TEXT_DOMAIN),
                 'default' => 'no'
                 ],
-            // test mode select
-            
+            // test mode select            
             'test_mode' => [
-                'title' => __('Test Mode', TEST_PAYMENT_TEXT_DOMAIN),
+                'title' => __('Payment Mode', TEST_PAYMENT_TEXT_DOMAIN),
                 'type'  => 'select',
                 'label' => __('Select the Test Mode', TEST_PAYMENT_TEXT_DOMAIN),
                 'options' => [
-                    'yes' => __('Yes', TEST_PAYMENT_TEXT_DOMAIN),
-                    'no' => __('No', TEST_PAYMENT_TEXT_DOMAIN),
+                    'yes' => __('Test', TEST_PAYMENT_TEXT_DOMAIN),
+                    'no' => __('Live', TEST_PAYMENT_TEXT_DOMAIN),
                 ],
                 'default' => 'yes',
                 'desc_tip' => TRUE
