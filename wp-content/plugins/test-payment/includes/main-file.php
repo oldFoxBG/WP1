@@ -112,13 +112,38 @@ class Test_Payment_Gateway extends WC_Payment_Gateway_CC
        $this->public_key = $this->test_mode ? $this->test_public_key : $this->live_public_key;
        $this->secret_key = $this->test_mode ? $this->test_secret_key : $this->live_secret_key;
        
-       
-       
        // Process admin options
        add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
        // Admin script
        add_action('admin_enqueue_scripts', [$this, 'admin_scripts']);       
+       // woocommerce available payment gateways
+       add_action('woocommerce_available_payment_gateways', [$this, 'available_payment_gateways']);
+       
     }
+    
+    /**
+     * available_payment_gateways
+     * 
+     */
+    // Ensures only active and enabled payment gateways appear at checkout.
+    public function available_payment_gateways($available_gateways)
+    {
+        if (!$this->is_available()){
+            // unset the gateway
+            unset($available_gateways[$this->id]);
+        }
+        return $available_gateways;
+    }
+    
+    
+    /**
+     * is availble
+     *
+     */
+    public function is_available() {
+        return $this->enabled === 'yes';
+    }
+    
     
     /**
      * Admin scripts
