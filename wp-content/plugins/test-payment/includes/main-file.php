@@ -72,8 +72,11 @@ class Test_Payment_Gateway extends WC_Payment_Gateway_CC
      */
     public $live_secret_key;
     
-    
-    
+    /**
+     * saved_cards
+     * 
+     */
+    public $saved_cards;
     
     /**
      *  Constructor
@@ -102,11 +105,15 @@ class Test_Payment_Gateway extends WC_Payment_Gateway_CC
        $this->description = $this->get_option('description');
        $this->enabled = $this->get_option('enabled');
        
+       // saved cards
+       $this->saved_cards = FALSE;
+       
        $this->test_mode = 'yes' === get_option('test_mode') ? true : false;
        
-       $this->test_public_key = $this->get_option('test_public_key');
-       $this->live_public_key = $this->get_option('live_public_key');
+       $this->test_public_key = $this->get_option('test_public_key');       
        $this->test_secret_key = $this->get_option('test_secret_key');
+       
+       $this->live_public_key = $this->get_option('live_public_key');
        $this->live_secret_key = $this->get_option('live_secret_key');
        
        $this->public_key = $this->test_mode ? $this->test_public_key : $this->live_public_key;
@@ -120,6 +127,17 @@ class Test_Payment_Gateway extends WC_Payment_Gateway_CC
        add_action('woocommerce_available_payment_gateways', [$this, 'available_payment_gateways']);
        
     }
+    
+    
+    /**
+     * Get Test payment icon URL.
+     */
+    public function get_logo_url()
+    {
+        $url = WC_HTTPS::force_https_url(TEST_PAYMENT_PLUGIN_URL . '/assets/images/visa_master.png');
+        return apply_filters('woocommerce_test_payment_icon', $url, $this->id);
+    }
+    
     
     /**
      * available_payment_gateways

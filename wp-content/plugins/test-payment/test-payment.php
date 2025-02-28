@@ -22,6 +22,8 @@ define('TEST_PAYMENT_VERSION', time());
 define('TEST_PAYMENT_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('TEST_PAYMENT_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('TEST_PAYMENT_TEXT_DOMAIN', 'test-payment-domain');
+// test payment file
+define('TEST_PAYMENT_FILE', __FILE__);
 
 // Activation Hook - Check if WooCommerce is Active
 register_activation_hook(__FILE__, 'test_payment_activation_check');
@@ -61,7 +63,21 @@ function test_payment_check_woocommerce()
     add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'test_payment_settings_link');
     // register woocommerce payment gateway
     add_filter('woocommerce_payment_gateways', 'test_payment_gateway');
+    // woocommerce_blocks_loaded
+    add_action('woocommerce_blocks_loaded', 'test_payment_block_support');
     }
+    
+/**
+ * test_payment_block_support
+ * 
+ */  
+function test_payment_block_support()
+{
+    if(class_exists('Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType.php')){
+        // include the TestPaymentBlockPaymentMethod class
+        include_once TEST_PAYMENT_PLUGIN_PATH . '/includes/class-test-block-payment-method.php';
+    }
+}
 
 function test_payment_init() 
 {    
