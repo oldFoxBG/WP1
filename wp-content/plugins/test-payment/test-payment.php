@@ -71,13 +71,21 @@ function test_payment_check_woocommerce()
  * test_payment_block_support
  * 
  */  
-function test_payment_block_support()
-{
-    if(class_exists('Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType.php')){
-        // include the TestPaymentBlockPaymentMethod class
-        include_once TEST_PAYMENT_PLUGIN_PATH . '/includes/class-test-block-payment-method.php';
+    function test_payment_block_support()
+    {
+        if(class_exists('Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType')){
+            // include the TestPaymentBlockPaymentMethod class
+            include_once TEST_PAYMENT_PLUGIN_PATH . '/includes/class-test-block-payment-method.php';
+            
+            // registering our block support class
+            add_action(
+                'woocommerce_blocks_payment_method_type_registration',
+                function (Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry) {
+                    $payment_method_registry->register(new WC_Test_payment_Gateway_Block_Support);
+                }
+                );
+        }
     }
-}
 
 function test_payment_init() 
 {    

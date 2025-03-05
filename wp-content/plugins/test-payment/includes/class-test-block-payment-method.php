@@ -2,6 +2,7 @@
 // Security check
 
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
+use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Automattic\WooCommerce\StoreApi\Payments\PaymentContext;
 use Automattic\WooCommerce\StoreApi\Payments\PaymentResult;
 
@@ -90,46 +91,30 @@ final class WC_Test_payment_Gateway_Block_Support extends AbstractPaymentMethodT
      */
     public function get_payment_method_script_handles()
     {
-//         $asset_path   = plugin_dir_path(TEST_PAYMENT_FILE) . '/assets/js/block/block.asset.php';
-//         $version      = null;
-//         $dependencies = array();
-//         if (file_exists($asset_path)) {
-//             $asset        = require $asset_path;
-//             $version      = isset($asset['version']) ? $asset['version'] : $version;
-//             $dependencies =  isset($asset['dependencies']) ? $asset['dependencies'] : $version;
-//         }
+        $asset_path   = plugin_dir_path(TEST_PAYMENT_FILE) . 'assets/js/block/block.asset.php';
+        $version      = null;
+        $dependencies = array();
+        if (file_exists($asset_path)) {
+            $asset        = require $asset_path;
+            $version      = isset($asset['version']) ? $asset['version'] : $version;
+            $dependencies = isset($asset['dependencies']) ? $asset['dependencies'] : array();
+        }
         
-//         wp_register_script(
-//             'wp-test-payment-blocks-integratrion',
-//             plugin_dir_url(TEST_PAYMENT_FILE) . '/assets/js/block/block.js',
-//             $dependencies,
-//             $version,
-//             TRUE
-//         );
+        wp_register_script(
+            'wp-test-payment-blocks-integratrion',
+            plugin_dir_url(TEST_PAYMENT_FILE) . 'assets/js/block/block.js',            
+            $dependencies,
+            $version,
+            TRUE
+        );
         
-//         // logo url
-//         $logo_url = WC_HTTPS::force_https_url(TEST_PAYMENT_PLUGIN_URL . '/assets/images/visa_master.png');
+        // logo url
+        $logo_url = WC_HTTPS::force_https_url(TEST_PAYMENT_PLUGIN_URL . '/assets/images/visa_master.png');
         
-//         // localization script
-//         wp_localize_script('wp-test-payment-blocks-integratrion', 'test_payment_Data', array(
-//             'logo_url' => $logo_url
-//         ));
+        // localization script
+        wp_localize_script('wp-test-payment-blocks-integration', 'test_payment_Data', array(
+            'logo_url' => $logo_url
+        ));
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        
+         
 }
