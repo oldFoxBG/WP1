@@ -2,7 +2,7 @@
 // Security check
 
 use Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType;
-use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
+// use Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry;
 use Automattic\WooCommerce\StoreApi\Payments\PaymentContext;
 use Automattic\WooCommerce\StoreApi\Payments\PaymentResult;
 
@@ -33,7 +33,7 @@ final class WC_Test_payment_Gateway_Block_Support extends AbstractPaymentMethodT
     
     
     /**
-     * Returns if this payment method should be active. If false, the script will not be wnqueued. 
+     * Returns if this payment method should be active. If false, the script will not be enqueued. 
      * 
      * @return boolean
      */
@@ -96,12 +96,13 @@ final class WC_Test_payment_Gateway_Block_Support extends AbstractPaymentMethodT
         $dependencies = array();
         if (file_exists($asset_path)) {
             $asset        = require $asset_path;
-            $version      = isset($asset['version']) ? $asset['version'] : $version;
-            $dependencies = isset($asset['dependencies']) ? $asset['dependencies'] : array();
+            $version      = isset($asset['version']) ? $asset['version'] : $version;            
+            $dependencies = isset($asset['dependencies']) ? $asset['dependencies'] : $dependencies;
+            // $dependencies = isset($asset['dependencies']) ? $asset['dependencies'] : array();
         }
         
         wp_register_script(
-            'wp-test-payment-blocks-integratrion',
+            'wc-test-payment-blocks-integratrion',
             plugin_dir_url(TEST_PAYMENT_FILE) . 'assets/js/block/block.js',            
             $dependencies,
             $version,
@@ -112,9 +113,11 @@ final class WC_Test_payment_Gateway_Block_Support extends AbstractPaymentMethodT
         $logo_url = WC_HTTPS::force_https_url(TEST_PAYMENT_PLUGIN_URL . '/assets/images/visa_master.png');
         
         // localization script
-        wp_localize_script('wp-test-payment-blocks-integration', 'test_payment_Data', array(
+        wp_localize_script('wc-test-payment-blocks-integration', 'test_payment_data', array(
             'logo_url' => $logo_url
         ));
+        
+        return array('wc-test-payment-blocks-integration');
     }
          
 }

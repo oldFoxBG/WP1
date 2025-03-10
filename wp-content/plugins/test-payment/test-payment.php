@@ -4,7 +4,7 @@
  * Plugin URI:  Plugin URL Link
  * Author:      Author Name
  * Author URI:  Author URI
- * Description: TEST Payment Gateway under PHP 8.2.12 / WP 6.7.2 / WC 9.6.2
+ * Description: TEST Payment Gateway under PHP 8.2.12 / WP 6.7.2 / WC 9.6.2 !!!
  * Version:     0.1.0
  * License:     GPL-2.0+
  * License URL: http://www.gnu.org/licenses/gpl-2.0.txt
@@ -73,6 +73,7 @@ function test_payment_check_woocommerce()
  */  
     function test_payment_block_support()
     {
+        // Check for AbstractPaymentMethodType class
         if(class_exists('Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType')){
             // include the TestPaymentBlockPaymentMethod class
             include_once TEST_PAYMENT_PLUGIN_PATH . '/includes/class-test-block-payment-method.php';

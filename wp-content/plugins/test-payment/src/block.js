@@ -1,7 +1,7 @@
 import { decodeEntities } from "@wordpress/html-entities";
 
-const { registerPaymentMethod } = window.wc.wcBlockRegistry;
-const {getSettings} = window.wc.wcSettings;
+const { registerPaymentMethod } = window.wc.wcBlocksRegistry;
+const { getSettings} = window.wc.wcSettings;
 
 const settings = getSettings("test_payment_data", {});
 
@@ -21,7 +21,7 @@ const Label  = (props) => {
 			justifyContent: "center", 
 			alignItems: "center"
 		 }}>
-		 <div>{decodeEntities(settings.title || "Test Payment")}</div>
+		 <div>{decodeEntities(settings.title)}</div>
 		 <img 
 		 	style={{ height: 10}}
 			src={'${settings.logo_urls}'}
@@ -39,6 +39,6 @@ registerPaymentMethod({
 	canMakePayment: () => true, 
 	ariaLabel: label, 
 	supports: {
-		features: settings.supports || []
+		features: settings.supports 
 	}
 });
